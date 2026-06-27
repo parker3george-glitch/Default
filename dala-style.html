@@ -67,17 +67,17 @@
     content: ''; position: absolute; inset: 5px;
     border: 1.5px solid var(--gold); border-radius: 3px;
   }
-  .nav-logo span:first-of-type { color: var(--gold); }
+  .nav-logo .logo-text span { color: var(--gold); }
   .nav-links { display: flex; gap: 36px; align-items: center; }
   .nav-search { position: relative; display: flex; align-items: center; }
   .nav-search input {
-    width: 200px; padding: 9px 16px 9px 36px; border-radius: 100px;
+    width: 280px; padding: 9px 16px 9px 36px; border-radius: 100px;
     border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04);
     color: var(--white); font-size: 13px; font-family: var(--font); outline: none;
     transition: border-color 0.2s, width 0.2s;
   }
   .nav-search input::placeholder { color: var(--smoke); }
-  .nav-search input:focus { border-color: var(--gold); width: 240px; }
+  .nav-search input:focus { border-color: var(--gold); width: 320px; }
   .nav-search svg { position: absolute; left: 12px; width: 14px; height: 14px; pointer-events: none; }
   .nav-search svg path, .nav-search svg circle { stroke: var(--smoke); }
   .nav-links a.navlink {
@@ -372,11 +372,11 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><div class="mark"></div><span>The Mortgage</span><span>Hub</span></div>
+  <div class="nav-logo"><div class="mark"></div><div class="logo-text"><span>The Mortgage</span> Hub</div></div>
   <div class="nav-links">
     <form class="nav-search" onsubmit="return submitNavSearch(event)">
       <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke-width="1.6" stroke-linecap="round"/></svg>
-      <input type="text" id="navSearchInput" placeholder="Ask a home buying question..." aria-label="Search home buying questions">
+      <input type="text" id="navSearchInput" placeholder="Ask any home buying question" aria-label="Search home buying questions">
     </form>
     <a class="navlink" href="#loans">Loan Types</a>
     <a class="navlink" href="#calculator">Calculator</a>
