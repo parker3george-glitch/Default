@@ -59,13 +59,9 @@
     font-weight: 600; font-size: 18px; letter-spacing: 0.021em;
     color: var(--white); display: flex; align-items: center; gap: 10px;
   }
-  .nav-logo .mark {
-    width: 22px; height: 22px; border: 1.5px solid var(--gold);
-    border-radius: 6px; position: relative; flex-shrink: 0;
-  }
-  .nav-logo .mark::before {
-    content: ''; position: absolute; inset: 5px;
-    border: 1.5px solid var(--gold); border-radius: 3px;
+  .nav-logo .logo-img {
+    width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+    background: var(--white); object-fit: cover; padding: 2px;
   }
   .nav-logo .logo-text span { color: var(--gold); }
   .nav-links { display: flex; gap: 36px; align-items: center; }
@@ -372,7 +368,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><div class="mark"></div><div class="logo-text"><span>The Mortgage</span> Hub</div></div>
+  <div class="nav-logo"><img src="logo.png" alt="The Mortgage Hub" class="logo-img"><div class="logo-text"><span>The Mortgage</span> Hub</div></div>
   <div class="nav-links">
     <form class="nav-search" onsubmit="return submitNavSearch(event)">
       <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke-width="1.6" stroke-linecap="round"/></svg>
