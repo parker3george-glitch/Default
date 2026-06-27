@@ -52,35 +52,33 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 18px 48px;
     display: flex; justify-content: space-between; align-items: center;
-    background: rgba(13,27,42,0.85);
-    backdrop-filter: blur(14px);
+    background: var(--gold);
   }
   .nav-logo {
     font-weight: 600; font-size: 18px; letter-spacing: 0.021em;
-    color: var(--white); display: flex; align-items: center; gap: 10px;
+    color: var(--navy); display: flex; align-items: center; gap: 10px;
   }
   .nav-logo .logo-img {
-    width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
-    background: var(--white); object-fit: cover; padding: 2px;
+    width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0;
+    background: var(--white); object-fit: cover; padding: 3px;
   }
-  .nav-logo .logo-text span { color: var(--gold); }
   .nav-links { display: flex; gap: 36px; align-items: center; }
   .nav-search { position: relative; display: flex; align-items: center; }
   .nav-search input {
     width: 280px; padding: 9px 16px 9px 36px; border-radius: 100px;
-    border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04);
-    color: var(--white); font-size: 13px; font-family: var(--font); outline: none;
+    border: 1px solid rgba(13,27,42,0.25); background: rgba(13,27,42,0.08);
+    color: var(--navy); font-size: 13px; font-family: var(--font); outline: none;
     transition: border-color 0.2s, width 0.2s;
   }
-  .nav-search input::placeholder { color: var(--smoke); }
-  .nav-search input:focus { border-color: var(--gold); width: 320px; }
+  .nav-search input::placeholder { color: rgba(13,27,42,0.55); }
+  .nav-search input:focus { border-color: var(--navy); width: 320px; }
   .nav-search svg { position: absolute; left: 12px; width: 14px; height: 14px; pointer-events: none; }
-  .nav-search svg path, .nav-search svg circle { stroke: var(--smoke); }
+  .nav-search svg path, .nav-search svg circle { stroke: var(--navy); }
   .nav-links a.navlink {
-    font-weight: 400; font-size: 14px; letter-spacing: 0.021em;
-    color: var(--smoke); text-decoration: none; transition: color 0.2s;
+    font-weight: 600; font-size: 14px; letter-spacing: 0.021em;
+    color: var(--navy); text-decoration: none; transition: opacity 0.2s; opacity: 0.75;
   }
-  .nav-links a.navlink:hover { color: var(--white); }
+  .nav-links a.navlink:hover { opacity: 1; }
   .pill-btn {
     display: inline-flex; align-items: center; justify-content: center;
     background: var(--gold); color: var(--navy);
@@ -90,6 +88,8 @@
     border: none; cursor: pointer; transition: background 0.2s;
   }
   .pill-btn:hover { background: var(--gold-light); }
+  nav .pill-btn { background: var(--navy); color: var(--white); }
+  nav .pill-btn:hover { background: var(--charcoal); }
   .pill-btn-ghost {
     display: inline-flex; align-items: center; justify-content: center;
     background: transparent; color: var(--white);
@@ -368,7 +368,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><img src="logo.png" alt="The Mortgage Hub" class="logo-img"><div class="logo-text"><span>The Mortgage</span> Hub</div></div>
+  <div class="nav-logo"><img src="logo.png" alt="The Mortgage Hub" class="logo-img"></div>
   <div class="nav-links">
     <form class="nav-search" onsubmit="return submitNavSearch(event)">
       <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke-width="1.6" stroke-linecap="round"/></svg>
