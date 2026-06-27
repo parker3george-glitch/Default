@@ -59,6 +59,57 @@
   }
   .nav-cta:hover { background: var(--gold-light) !important; }
 
+  .nav-search { position: relative; flex: 1; max-width: 360px; margin: 0 32px; }
+  .nav-search-input {
+    width: 100%; padding: 9px 16px 9px 36px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 100px; color: var(--white);
+    font-size: 13px; font-family: 'Inter', sans-serif;
+    outline: none; transition: border-color 0.2s, background 0.2s;
+  }
+  .nav-search-input::placeholder { color: rgba(255,255,255,0.4); }
+  .nav-search-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.12); }
+  .nav-search-icon {
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    font-size: 13px; color: rgba(255,255,255,0.4); pointer-events: none;
+  }
+
+  /* ── SEARCH MODAL ── */
+  .search-modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(13,27,42,0.75);
+    backdrop-filter: blur(4px);
+    align-items: flex-start; justify-content: center;
+    padding: 100px 24px 24px;
+  }
+  .search-modal-overlay.active { display: flex; }
+  .search-modal {
+    background: var(--white); border-radius: 16px;
+    max-width: 600px; width: 100%; max-height: 70vh;
+    overflow-y: auto; padding: 32px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+  }
+  .search-modal-close {
+    float: right; background: none; border: none;
+    font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1;
+  }
+  .search-result-q {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px; color: var(--navy); margin-bottom: 10px;
+    padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .search-result-q:first-of-type { padding-top: 0; border-top: none; }
+  .search-result-a { font-size: 14px; color: var(--charcoal); line-height: 1.7; }
+  .search-no-results { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .search-cta {
+    display: inline-block; margin-top: 16px;
+    background: var(--gold); color: var(--navy);
+    padding: 10px 20px; border-radius: 8px;
+    font-weight: 700; font-size: 13px; text-decoration: none;
+  }
+
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
@@ -722,6 +773,7 @@
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
+    .nav-search { margin: 0 16px; max-width: none; }
     section { padding: 60px 24px; }
     .hero { padding: 100px 24px 60px; }
     .hero-grid, .calc-grid, .lead-grid, .about-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -742,6 +794,10 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo"><span>The Mortgage</span> Hub</div>
+  <form class="nav-search" onsubmit="event.preventDefault(); runFaqSearch();">
+    <span class="nav-search-icon">🔍</span>
+    <input class="nav-search-input" id="navSearchInput" type="text" placeholder="Ask a home buying question...">
+  </form>
   <div class="nav-links">
     <a href="#loans">Loan Types</a>
     <a href="#calculator">Calculator</a>
@@ -750,6 +806,14 @@
     <a href="#book" class="nav-cta">Book Free Call</a>
   </div>
 </nav>
+
+<!-- SEARCH RESULTS MODAL -->
+<div class="search-modal-overlay" id="searchModalOverlay" onclick="if(event.target===this) closeFaqSearch()">
+  <div class="search-modal">
+    <button class="search-modal-close" onclick="closeFaqSearch()">&times;</button>
+    <div id="searchResultsContainer"></div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="hero">
@@ -1651,6 +1715,48 @@
       a2: intent
     });
     window.open('https://calendly.com/parker3george/30min?' + params.toString(), '_blank');
+  }
+
+  // Educational FAQ search
+  const faqData = [
+    { keywords: ['credit', 'score', 'raise', 'improve', 'minimum'], q: 'What credit score do I need to buy a home?', a: 'Conventional loans typically require a 620+ credit score, FHA loans allow as low as 580 (or even 500 with 10% down), and VA loans have no official minimum but most lenders look for 580-620. A higher score gets you a better rate — even a 40-point difference can change your rate by 0.5% or more.' },
+    { keywords: ['down', 'payment', 'minimum', 'how much', 'save'], q: 'How much do I need for a down payment?', a: 'It depends on the loan: Conventional loans require as little as 3% down, FHA loans require 3.5%, and VA and USDA loans can require 0% down for eligible borrowers. On a $350,000 home, that ranges from $0 (VA/USDA) to $10,500 (3% conventional).' },
+    { keywords: ['pre-approval', 'preapproval', 'pre approval', 'qualify', 'how long'], q: 'What is mortgage pre-approval and how long does it take?', a: 'Pre-approval is a lender\'s conditional commitment to lend you a specific amount based on your income, credit, and assets. It typically takes 24-48 hours and does not require a hard credit pull to get started. Getting pre-approved before house hunting tells sellers you\'re a serious, qualified buyer.' },
+    { keywords: ['fha', 'fha loan'], q: 'What is an FHA loan?', a: 'An FHA loan is a government-backed mortgage with flexible credit requirements, ideal for first-time buyers. It requires as little as 3.5% down with a 580+ credit score, but does require mortgage insurance for the life of the loan in most cases.' },
+    { keywords: ['va', 'veteran', 'military', 'va loan'], q: 'What is a VA loan and who qualifies?', a: 'VA loans are available to eligible veterans, active-duty service members, and some surviving spouses. They allow 0% down, have no private mortgage insurance (PMI), and offer competitive rates. Many eligible veterans never use this benefit because they don\'t know about it.' },
+    { keywords: ['usda', 'rural', 'usda loan'], q: 'What is a USDA loan?', a: 'USDA loans offer 100% financing (no down payment) for eligible buyers in qualifying rural and suburban areas. Many suburbs qualify even though they don\'t sound "rural" — it\'s one of the most overlooked loan programs.' },
+    { keywords: ['refinance', 'refi', 'lower rate', 'cash out'], q: 'When does it make sense to refinance?', a: 'Refinancing can make sense if current rates are meaningfully lower than your existing rate, if you want to switch from an adjustable to a fixed rate, or if you want to pull cash out of your home equity. We run the numbers with you to see if a refi actually saves you money after closing costs.' },
+    { keywords: ['self employed', 'self-employed', 'dscr', 'investor', 'bank statement'], q: 'Can self-employed buyers or investors get a mortgage?', a: 'Yes — bank statement loans qualify you based on cash flow instead of W-2 income, and DSCR loans for investors qualify based on a property\'s rental income rather than your personal income.' },
+    { keywords: ['monthly payment', 'afford', 'budget', 'calculator'], q: 'How do I know what monthly payment I can afford?', a: 'Use the mortgage calculator on this page — enter the home price, down payment, rate, and term to see an estimated principal & interest payment. Remember to budget separately for taxes, insurance, and HOA fees, which aren\'t included in that estimate.' },
+    { keywords: ['closing', 'closing costs', 'how long to close', 'underwriting'], q: 'How long does closing take and what are closing costs?', a: 'Closing typically takes 2-4 weeks after an accepted offer, covering underwriting, appraisal, and final approval. Closing costs usually run 2-5% of the loan amount and cover things like lender fees, title insurance, and appraisal — we walk you through exactly what to expect before you sign anything.' },
+    { keywords: ['first time', 'first-time', 'buyer', 'beginner', 'getting started'], q: 'Where do I start as a first-time homebuyer?', a: 'Start with a free strategy call to get pre-approved and understand your real budget before you start house hunting. Most first-time buyers fall in love with a home before knowing what they qualify for — getting pre-approved first protects you from that mistake and makes your offer stronger.' }
+  ];
+
+  function runFaqSearch() {
+    const query = document.getElementById('navSearchInput').value.trim().toLowerCase();
+    const container = document.getElementById('searchResultsContainer');
+    if (!query) return;
+
+    const scored = faqData.map(item => {
+      const score = item.keywords.reduce((acc, kw) => acc + (query.includes(kw) || kw.includes(query) ? 1 : 0), 0);
+      return { item, score };
+    }).filter(r => r.score > 0).sort((a, b) => b.score - a.score);
+
+    if (scored.length === 0) {
+      container.innerHTML = `
+        <p class="search-no-results">We don't have a written answer for "${query.replace(/</g, '&lt;')}" yet — but Parker can answer it directly on a free call.</p>
+        <a class="search-cta" href="https://calendly.com/parker3george/30min" target="_blank">Book a Free Strategy Call →</a>`;
+    } else {
+      container.innerHTML = scored.slice(0, 5).map(r => `
+        <div class="search-result-q">${r.item.q}</div>
+        <div class="search-result-a">${r.item.a}</div>`).join('') +
+        `<a class="search-cta" href="https://calendly.com/parker3george/30min" target="_blank" style="margin-top:24px">Have a more specific question? Book a Free Call →</a>`;
+    }
+    document.getElementById('searchModalOverlay').classList.add('active');
+  }
+
+  function closeFaqSearch() {
+    document.getElementById('searchModalOverlay').classList.remove('active');
   }
 
   // Smooth scroll
