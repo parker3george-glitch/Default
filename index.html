@@ -1043,25 +1043,29 @@
           <div class="lead-stat-num">48hr</div>
           <div class="lead-stat-label">average pre-approval turnaround</div>
         </div>
+        <div class="lead-stat" style="margin-top:16px">
+          <div class="lead-stat-num">40+</div>
+          <div class="lead-stat-label">loan programs shopped on your behalf</div>
+        </div>
       </div>
       <div class="lead-form">
         <h3>Get My Free Rate Quote</h3>
         <p>No credit pull. No obligation. Just real numbers.</p>
         <div class="form-group">
           <label>Full Name</label>
-          <input class="form-input" type="text" placeholder="John Smith">
+          <input class="form-input" type="text" id="leadName" placeholder="John Smith" required>
         </div>
         <div class="form-group">
           <label>Phone Number</label>
-          <input class="form-input" type="tel" placeholder="(214) 555-0100">
+          <input class="form-input" type="tel" id="leadPhone" placeholder="(214) 555-0100" required>
         </div>
         <div class="form-group">
           <label>Email Address</label>
-          <input class="form-input" type="email" placeholder="john@email.com">
+          <input class="form-input" type="email" id="leadEmail" placeholder="john@email.com" required>
         </div>
         <div class="form-group">
           <label>I'm Looking To...</label>
-          <select class="form-select">
+          <select class="form-select" id="leadIntent">
             <option>Purchase a home</option>
             <option>Refinance my current home</option>
             <option>Learn what I qualify for</option>
@@ -1069,7 +1073,7 @@
             <option>I'm just starting to research</option>
           </select>
         </div>
-        <button class="form-submit" onclick="window.open('https://calendly.com/parker3george/30min','_blank')">Book My Free Strategy Call →</button>
+        <button class="form-submit" id="leadSubmit" onclick="submitLeadForm()">Book My Free Strategy Call →</button>
         <p class="form-disclaimer">By submitting, you agree to be contacted by a licensed mortgage professional. NMLS #2715998. New American Funding.</p>
       </div>
     </div>
@@ -1514,19 +1518,19 @@
     </div>
     <div class="footer-col">
       <h4>Loan Programs</h4>
-      <a href="#">Conventional Loans</a>
-      <a href="#">FHA Loans</a>
-      <a href="#">VA Loans</a>
-      <a href="#">USDA Loans</a>
-      <a href="#">DSCR / Investors</a>
+      <a href="#loans">Conventional Loans</a>
+      <a href="#loans">FHA Loans</a>
+      <a href="#loans">VA Loans</a>
+      <a href="#loans">USDA Loans</a>
+      <a href="#loans">DSCR / Investors</a>
     </div>
     <div class="footer-col">
       <h4>Resources</h4>
-      <a href="#">Mortgage Calculator</a>
-      <a href="#">Rate Comparison</a>
-      <a href="#">First-Time Buyer Guide</a>
-      <a href="#">Credit Score Tips</a>
-      <a href="#">Local Market Updates</a>
+      <a href="#calculator">Mortgage Calculator</a>
+      <a href="#rates">Rate Comparison</a>
+      <a href="#blog">First-Time Buyer Guide</a>
+      <a href="#blog">Credit Score Tips</a>
+      <a href="#blog">Local Market Updates</a>
     </div>
     <div class="footer-col">
       <h4>Connect</h4>
@@ -1568,6 +1572,27 @@
   ['homePrice','downPayment','interestRate','loanTerm'].forEach(id => {
     document.getElementById(id).addEventListener('input', calcPayment);
   });
+
+  // Lead form — prefill Calendly with the visitor's info instead of discarding it
+  function submitLeadForm() {
+    const name = document.getElementById('leadName').value.trim();
+    const phone = document.getElementById('leadPhone').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    const intent = document.getElementById('leadIntent').value;
+
+    if (!name || !phone || !email) {
+      alert('Please fill in your name, phone, and email so Parker can follow up.');
+      return;
+    }
+
+    const params = new URLSearchParams({
+      name: name,
+      email: email,
+      a1: phone,
+      a2: intent
+    });
+    window.open('https://calendly.com/parker3george/30min?' + params.toString(), '_blank');
+  }
 
   // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
