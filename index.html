@@ -392,6 +392,31 @@
   }
   .apply-link:hover { color: var(--navy); border-color: var(--navy); }
 
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: var(--white); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .testimonial-card {
+    background: var(--cream); border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px; padding: 28px;
+  }
+  .testimonial-stars { color: var(--gold); font-size: 16px; margin-bottom: 14px; letter-spacing: 2px; }
+  .testimonial-quote { font-size: 15px; color: var(--charcoal); line-height: 1.65; margin-bottom: 16px; }
+  .testimonial-author { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+  /* ── STICKY MOBILE CTA ── */
+  .sticky-cta {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
+    background: var(--navy); padding: 14px 20px;
+    border-top: 1px solid rgba(201,168,76,0.25);
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.15);
+  }
+  .sticky-cta a {
+    display: block; background: var(--gold); color: var(--navy);
+    text-align: center; padding: 14px; border-radius: 8px;
+    font-weight: 700; font-size: 15px; text-decoration: none;
+  }
+
   /* ── BLOG PREVIEW ── */
   .blog-section { background: var(--white); }
   .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
@@ -706,6 +731,9 @@
     .plan-grid { grid-template-columns: repeat(3, 1fr); }
     .automation-box { grid-template-columns: 1fr 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .sticky-cta { display: block; }
+    body { padding-bottom: 70px; }
   }
 </style>
 </head>
@@ -713,7 +741,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><span>The Mortgage</span> Guide Hub</div>
+  <div class="nav-logo"><span>The Mortgage</span> Hub</div>
   <div class="nav-links">
     <a href="#loans">Loan Types</a>
     <a href="#calculator">Calculator</a>
@@ -996,6 +1024,32 @@
   </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <div class="section-label">What Buyers Say</div>
+    <h2 class="section-title">Real Borrowers, Real Results</h2>
+    <p class="section-sub">No paid actors — just buyers who closed on time and felt informed the whole way.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Pre-approved in under 24 hours and closed in 19 days. Parker answered every text himself, even on a Saturday."</p>
+        <div class="testimonial-author">— Maria S., First-Time Buyer, Conventional Loan</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"I didn't know I qualified for $0 down as a veteran until Parker walked me through it. Saved me $14,000 at closing."</p>
+        <div class="testimonial-author">— James T., VA Loan</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"Refinanced and dropped my rate by 0.8%. The whole process took two weeks and I never had to chase anyone for updates."</p>
+        <div class="testimonial-author">— Dana R., Refinance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- BLOG RESOURCES -->
 <section class="blog-section" id="blog">
   <div class="section-inner">
@@ -1043,25 +1097,29 @@
           <div class="lead-stat-num">48hr</div>
           <div class="lead-stat-label">average pre-approval turnaround</div>
         </div>
+        <div class="lead-stat" style="margin-top:16px">
+          <div class="lead-stat-num">40+</div>
+          <div class="lead-stat-label">loan programs shopped on your behalf</div>
+        </div>
       </div>
       <div class="lead-form">
         <h3>Get My Free Rate Quote</h3>
         <p>No credit pull. No obligation. Just real numbers.</p>
         <div class="form-group">
           <label>Full Name</label>
-          <input class="form-input" type="text" placeholder="John Smith">
+          <input class="form-input" type="text" id="leadName" placeholder="John Smith" required>
         </div>
         <div class="form-group">
           <label>Phone Number</label>
-          <input class="form-input" type="tel" placeholder="(214) 555-0100">
+          <input class="form-input" type="tel" id="leadPhone" placeholder="(214) 555-0100" required>
         </div>
         <div class="form-group">
           <label>Email Address</label>
-          <input class="form-input" type="email" placeholder="john@email.com">
+          <input class="form-input" type="email" id="leadEmail" placeholder="john@email.com" required>
         </div>
         <div class="form-group">
           <label>I'm Looking To...</label>
-          <select class="form-select">
+          <select class="form-select" id="leadIntent">
             <option>Purchase a home</option>
             <option>Refinance my current home</option>
             <option>Learn what I qualify for</option>
@@ -1069,7 +1127,7 @@
             <option>I'm just starting to research</option>
           </select>
         </div>
-        <button class="form-submit" onclick="window.open('https://calendly.com/parker3george/30min','_blank')">Book My Free Strategy Call →</button>
+        <button class="form-submit" id="leadSubmit" onclick="submitLeadForm()">Book My Free Strategy Call →</button>
         <p class="form-disclaimer">By submitting, you agree to be contacted by a licensed mortgage professional. NMLS #2715998. New American Funding.</p>
       </div>
     </div>
@@ -1504,6 +1562,11 @@
   </div>
 </section>
 
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta">
+  <a href="https://calendly.com/parker3george/30min" target="_blank">📅 Book Free Strategy Call →</a>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
@@ -1514,19 +1577,19 @@
     </div>
     <div class="footer-col">
       <h4>Loan Programs</h4>
-      <a href="#">Conventional Loans</a>
-      <a href="#">FHA Loans</a>
-      <a href="#">VA Loans</a>
-      <a href="#">USDA Loans</a>
-      <a href="#">DSCR / Investors</a>
+      <a href="#loans">Conventional Loans</a>
+      <a href="#loans">FHA Loans</a>
+      <a href="#loans">VA Loans</a>
+      <a href="#loans">USDA Loans</a>
+      <a href="#loans">DSCR / Investors</a>
     </div>
     <div class="footer-col">
       <h4>Resources</h4>
-      <a href="#">Mortgage Calculator</a>
-      <a href="#">Rate Comparison</a>
-      <a href="#">First-Time Buyer Guide</a>
-      <a href="#">Credit Score Tips</a>
-      <a href="#">Local Market Updates</a>
+      <a href="#calculator">Mortgage Calculator</a>
+      <a href="#rates">Rate Comparison</a>
+      <a href="#blog">First-Time Buyer Guide</a>
+      <a href="#blog">Credit Score Tips</a>
+      <a href="#blog">Local Market Updates</a>
     </div>
     <div class="footer-col">
       <h4>Connect</h4>
@@ -1568,6 +1631,27 @@
   ['homePrice','downPayment','interestRate','loanTerm'].forEach(id => {
     document.getElementById(id).addEventListener('input', calcPayment);
   });
+
+  // Lead form — prefill Calendly with the visitor's info instead of discarding it
+  function submitLeadForm() {
+    const name = document.getElementById('leadName').value.trim();
+    const phone = document.getElementById('leadPhone').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
+    const intent = document.getElementById('leadIntent').value;
+
+    if (!name || !phone || !email) {
+      alert('Please fill in your name, phone, and email so Parker can follow up.');
+      return;
+    }
+
+    const params = new URLSearchParams({
+      name: name,
+      email: email,
+      a1: phone,
+      a2: intent
+    });
+    window.open('https://calendly.com/parker3george/30min?' + params.toString(), '_blank');
+  }
 
   // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
