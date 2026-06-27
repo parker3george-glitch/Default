@@ -67,8 +67,19 @@
     content: ''; position: absolute; inset: 5px;
     border: 1.5px solid var(--gold); border-radius: 3px;
   }
-  .nav-logo span { color: var(--gold); }
+  .nav-logo span:first-of-type { color: var(--gold); }
   .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-search { position: relative; display: flex; align-items: center; }
+  .nav-search input {
+    width: 200px; padding: 9px 16px 9px 36px; border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04);
+    color: var(--white); font-size: 13px; font-family: var(--font); outline: none;
+    transition: border-color 0.2s, width 0.2s;
+  }
+  .nav-search input::placeholder { color: var(--smoke); }
+  .nav-search input:focus { border-color: var(--gold); width: 240px; }
+  .nav-search svg { position: absolute; left: 12px; width: 14px; height: 14px; pointer-events: none; }
+  .nav-search svg path, .nav-search svg circle { stroke: var(--smoke); }
   .nav-links a.navlink {
     font-weight: 400; font-size: 14px; letter-spacing: 0.021em;
     color: var(--smoke); text-decoration: none; transition: color 0.2s;
@@ -361,8 +372,12 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><div class="mark"></div><span>The Mortgage</span>&nbsp;Hub</div>
+  <div class="nav-logo"><div class="mark"></div><span>The Mortgage</span><span>Hub</span></div>
   <div class="nav-links">
+    <form class="nav-search" onsubmit="return submitNavSearch(event)">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="text" id="navSearchInput" placeholder="Ask a home buying question..." aria-label="Search home buying questions">
+    </form>
     <a class="navlink" href="#loans">Loan Types</a>
     <a class="navlink" href="#calculator">Calculator</a>
     <a class="navlink" href="#rates">Compare Rates</a>
@@ -699,6 +714,27 @@
   const focalCanvas = document.getElementById('focalCanvas');
   if (focalCanvas) {
     initParticles(focalCanvas, { colors: ['#C9A84C', '#1A6B3A', '#FFFFFF'], density: 6000 });
+  }
+
+  // ── Nav search: jump to the most relevant section on the page ──
+  function submitNavSearch(e) {
+    e.preventDefault();
+    const query = document.getElementById('navSearchInput').value.trim().toLowerCase();
+    if (!query) return false;
+    const keywordMap = [
+      { keywords: ['rate', 'rates', 'interest', 'apr', 'compare'], target: '#rates' },
+      { keywords: ['calculator', 'payment', 'afford', 'monthly'], target: '#calculator' },
+      { keywords: ['fha', 'va', 'usda', 'conventional', 'loan', 'loans', 'down payment', 'self-employed', 'dscr'], target: '#loans' },
+      { keywords: ['blog', 'guide', 'credit', 'learn', 'resource'], target: '#blog' },
+      { keywords: ['quote', 'apply', 'pre-approval', 'pre-approved', 'started'], target: '#book' }
+    ];
+    let target = null;
+    for (const entry of keywordMap) {
+      if (entry.keywords.some(k => query.includes(k))) { target = entry.target; break; }
+    }
+    if (!target) target = '#book';
+    document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+    return false;
   }
 
   // ── Mortgage calculator ──
