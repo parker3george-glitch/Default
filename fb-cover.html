@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 820px; height: 312px; overflow: hidden; background: #0D1B2A; font-family: 'Georgia', serif; }
+
+  .cover {
+    width: 820px; height: 312px;
+    background: linear-gradient(135deg, #0D1B2A 0%, #1a2e45 50%, #0D1B2A 100%);
+    position: relative; display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  /* background geometric lines */
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(45deg, transparent 48%, rgba(184,154,69,0.08) 49%, rgba(184,154,69,0.08) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(184,154,69,0.06) 49%, rgba(184,154,69,0.06) 51%, transparent 52%);
+    background-size: 80px 80px;
+  }
+
+  /* gold top accent bar */
+  .accent-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(to right, transparent, #B89A45, #E8C97A, #B89A45, transparent);
+  }
+
+  /* gold bottom accent bar */
+  .accent-bar-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(to right, transparent, #B89A45, #E8C97A, #B89A45, transparent);
+  }
+
+  /* left house icon area */
+  .icon-area {
+    position: absolute; left: 60px; top: 50%; transform: translateY(-50%);
+    width: 160px; height: 160px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  svg.house { width: 140px; height: 140px; }
+
+  /* divider line */
+  .divider {
+    position: absolute; left: 250px; top: 40px; bottom: 40px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #B89A45, #B89A45, transparent);
+  }
+
+  /* right text area */
+  .text-area {
+    position: absolute; left: 280px; right: 40px; top: 50%; transform: translateY(-50%);
+  }
+
+  .eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #B89A45;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-family: 'Georgia', serif;
+    font-size: 42px; font-weight: 700;
+    color: #ffffff; line-height: 1.05;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+
+  .title span { color: #B89A45; }
+
+  .tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px; font-weight: 400; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 20px;
+  }
+
+  .cta {
+    display: inline-block;
+    padding: 9px 24px;
+    border: 1px solid #B89A45;
+    border-radius: 100px;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #B89A45;
+  }
+
+  /* domain */
+  .domain {
+    position: absolute; bottom: 18px; right: 30px;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px; letter-spacing: 0.06em;
+    color: rgba(184,154,69,0.6);
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="accent-bar"></div>
+  <div class="accent-bar-bottom"></div>
+
+  <div class="icon-area">
+    <svg class="house" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- house roof -->
+      <polygon points="70,10 130,65 10,65" fill="none" stroke="#B89A45" stroke-width="3" stroke-linejoin="round"/>
+      <!-- chimney -->
+      <rect x="90" y="22" width="12" height="22" fill="none" stroke="#B89A45" stroke-width="2.5"/>
+      <!-- house body -->
+      <rect x="20" y="65" width="100" height="65" fill="none" stroke="#B89A45" stroke-width="3"/>
+      <!-- upward arrows (columns) -->
+      <line x1="45" y1="118" x2="45" y2="78" stroke="#E8C97A" stroke-width="2.5"/>
+      <polyline points="40,83 45,75 50,83" fill="none" stroke="#E8C97A" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="70" y1="118" x2="70" y2="72" stroke="#E8C97A" stroke-width="2.5"/>
+      <polyline points="65,77 70,69 75,77" fill="none" stroke="#E8C97A" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="95" y1="118" x2="95" y2="82" stroke="#E8C97A" stroke-width="2.5"/>
+      <polyline points="90,87 95,79 100,87" fill="none" stroke="#E8C97A" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- glow circle behind house -->
+      <circle cx="70" cy="75" r="58" fill="rgba(184,154,69,0.04)" stroke="rgba(184,154,69,0.12)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="text-area">
+    <div class="eyebrow">Mortgage Lead Generation</div>
+    <div class="title">The <span>Mortgage</span> Hub</div>
+    <div class="tagline">Find Your Best Rate Today</div>
+    <div class="cta">Get a Free Quote</div>
+  </div>
+
+  <div class="domain">mortgageguidehub.com</div>
+</div>
+</body>
+</html>
