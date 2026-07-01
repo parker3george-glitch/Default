@@ -4,136 +4,147 @@
 <meta charset="UTF-8">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { width: 820px; height: 312px; overflow: hidden; background: #0D1B2A; font-family: 'Georgia', serif; }
+  body { width: 820px; height: 312px; overflow: hidden; }
 
   .cover {
     width: 820px; height: 312px;
-    background: linear-gradient(135deg, #0D1B2A 0%, #1a2e45 50%, #0D1B2A 100%);
-    position: relative; display: flex; align-items: center;
-    overflow: hidden;
+    position: relative; overflow: hidden;
+    font-family: 'Arial', sans-serif;
   }
 
-  /* background geometric lines */
-  .cover::before {
-    content: '';
+  /* warm lifestyle background gradient simulating a sunny home exterior */
+  .bg {
     position: absolute; inset: 0;
-    background:
-      linear-gradient(45deg, transparent 48%, rgba(184,154,69,0.08) 49%, rgba(184,154,69,0.08) 51%, transparent 52%),
-      linear-gradient(-45deg, transparent 48%, rgba(184,154,69,0.06) 49%, rgba(184,154,69,0.06) 51%, transparent 52%);
-    background-size: 80px 80px;
+    background: linear-gradient(
+      135deg,
+      #2b4a6b 0%,
+      #1e3a55 20%,
+      #3a6186 40%,
+      #6b8fa8 60%,
+      #a8c4d4 80%,
+      #c9dde8 100%
+    );
   }
 
-  /* gold top accent bar */
-  .accent-bar {
-    position: absolute; top: 0; left: 0; right: 0; height: 4px;
-    background: linear-gradient(to right, transparent, #B89A45, #E8C97A, #B89A45, transparent);
+  /* sun/glow top right */
+  .sun {
+    position: absolute; top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,220,120,0.55) 0%, rgba(255,180,60,0.2) 40%, transparent 70%);
   }
 
-  /* gold bottom accent bar */
-  .accent-bar-bottom {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
-    background: linear-gradient(to right, transparent, #B89A45, #E8C97A, #B89A45, transparent);
+  /* ground/lawn gradient at bottom */
+  .ground {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+    background: linear-gradient(to top, #2d5a27 0%, #3a7a32 40%, transparent 100%);
   }
 
-  /* left house icon area */
-  .icon-area {
-    position: absolute; left: 60px; top: 50%; transform: translateY(-50%);
-    width: 160px; height: 160px;
-    display: flex; align-items: center; justify-content: center;
+  /* house silhouette */
+  .house-wrap {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
   }
 
-  svg.house { width: 140px; height: 140px; }
+  svg.house-silhouette { display: block; }
 
-  /* divider line */
-  .divider {
-    position: absolute; left: 250px; top: 40px; bottom: 40px;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, #B89A45, #B89A45, transparent);
+  /* warm overlay at bottom */
+  .warm-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(to top, rgba(30,50,30,0.6), transparent);
   }
 
-  /* right text area */
-  .text-area {
-    position: absolute; left: 280px; right: 40px; top: 50%; transform: translateY(-50%);
+  /* soft light rays */
+  .rays {
+    position: absolute; top: 0; right: 80px;
+    width: 400px; height: 312px;
+    background: repeating-linear-gradient(
+      -30deg,
+      transparent,
+      transparent 30px,
+      rgba(255,220,100,0.03) 30px,
+      rgba(255,220,100,0.03) 60px
+    );
   }
 
-  .eyebrow {
-    font-family: 'Arial', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-    text-transform: uppercase; color: #B89A45;
-    margin-bottom: 10px;
+  /* text overlay — minimal, aspirational */
+  .text-overlay {
+    position: absolute; bottom: 28px; left: 44px;
   }
 
-  .title {
-    font-family: 'Georgia', serif;
-    font-size: 42px; font-weight: 700;
-    color: #ffffff; line-height: 1.05;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  .headline {
+    font-size: 26px; font-weight: 700; color: #ffffff;
+    letter-spacing: 0.01em; line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    margin-bottom: 6px;
   }
 
-  .title span { color: #B89A45; }
-
-  .tagline {
-    font-family: 'Arial', sans-serif;
-    font-size: 15px; font-weight: 400; letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 20px;
+  .sub {
+    font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.85);
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
   }
 
-  .cta {
-    display: inline-block;
-    padding: 9px 24px;
-    border: 1px solid #B89A45;
-    border-radius: 100px;
-    font-family: 'Arial', sans-serif;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #B89A45;
-  }
-
-  /* domain */
-  .domain {
-    position: absolute; bottom: 18px; right: 30px;
-    font-family: 'Arial', sans-serif;
-    font-size: 11px; letter-spacing: 0.06em;
-    color: rgba(184,154,69,0.6);
+  /* clouds */
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50px;
   }
 </style>
 </head>
 <body>
 <div class="cover">
-  <div class="accent-bar"></div>
-  <div class="accent-bar-bottom"></div>
+  <div class="bg"></div>
+  <div class="sun"></div>
+  <div class="rays"></div>
 
-  <div class="icon-area">
-    <svg class="house" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- house roof -->
-      <polygon points="70,10 130,65 10,65" fill="none" stroke="#B89A45" stroke-width="3" stroke-linejoin="round"/>
+  <!-- clouds -->
+  <div class="cloud" style="width:120px;height:36px;top:38px;left:80px;"></div>
+  <div class="cloud" style="width:80px;height:26px;top:28px;left:140px;"></div>
+  <div class="cloud" style="width:90px;height:28px;top:55px;left:320px;opacity:0.12;"></div>
+
+  <!-- house silhouette SVG -->
+  <div class="house-wrap">
+    <svg class="house-silhouette" width="480" height="200" viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- main house body -->
+      <rect x="80" y="90" width="220" height="110" fill="rgba(20,35,55,0.75)"/>
+      <!-- main roof -->
+      <polygon points="60,90 300,90 180,20" fill="rgba(15,25,40,0.85)"/>
       <!-- chimney -->
-      <rect x="90" y="22" width="12" height="22" fill="none" stroke="#B89A45" stroke-width="2.5"/>
-      <!-- house body -->
-      <rect x="20" y="65" width="100" height="65" fill="none" stroke="#B89A45" stroke-width="3"/>
-      <!-- upward arrows (columns) -->
-      <line x1="45" y1="118" x2="45" y2="78" stroke="#E8C97A" stroke-width="2.5"/>
-      <polyline points="40,83 45,75 50,83" fill="none" stroke="#E8C97A" stroke-width="2.5" stroke-linejoin="round"/>
-      <line x1="70" y1="118" x2="70" y2="72" stroke="#E8C97A" stroke-width="2.5"/>
-      <polyline points="65,77 70,69 75,77" fill="none" stroke="#E8C97A" stroke-width="2.5" stroke-linejoin="round"/>
-      <line x1="95" y1="118" x2="95" y2="82" stroke="#E8C97A" stroke-width="2.5"/>
-      <polyline points="90,87 95,79 100,87" fill="none" stroke="#E8C97A" stroke-width="2.5" stroke-linejoin="round"/>
-      <!-- glow circle behind house -->
-      <circle cx="70" cy="75" r="58" fill="rgba(184,154,69,0.04)" stroke="rgba(184,154,69,0.12)" stroke-width="1"/>
+      <rect x="230" y="35" width="22" height="40" fill="rgba(15,25,40,0.85)"/>
+      <!-- garage -->
+      <rect x="300" y="120" width="130" height="80" fill="rgba(20,35,55,0.65)"/>
+      <!-- garage roof -->
+      <polygon points="290,120 440,120 365,75" fill="rgba(15,25,40,0.75)"/>
+      <!-- door -->
+      <rect x="165" y="140" width="40" height="60" rx="3" fill="rgba(180,150,60,0.5)"/>
+      <!-- windows main house -->
+      <rect x="100" y="110" width="45" height="38" rx="2" fill="rgba(255,220,120,0.35)"/>
+      <rect x="230" y="110" width="45" height="38" rx="2" fill="rgba(255,220,120,0.35)"/>
+      <!-- garage door -->
+      <rect x="314" y="135" width="100" height="65" rx="2" fill="rgba(255,220,120,0.15)"/>
+      <!-- window lines garage door -->
+      <line x1="314" y1="157" x2="414" y2="157" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <line x1="314" y1="179" x2="414" y2="179" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <line x1="364" y1="135" x2="364" y2="200" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <!-- tree left -->
+      <rect x="30" y="130" width="10" height="60" fill="rgba(20,40,20,0.7)"/>
+      <ellipse cx="35" cy="120" rx="28" ry="35" fill="rgba(25,70,25,0.7)"/>
+      <!-- tree right -->
+      <rect x="440" y="145" width="8" height="55" fill="rgba(20,40,20,0.7)"/>
+      <ellipse cx="444" cy="135" rx="22" ry="28" fill="rgba(25,70,25,0.7)"/>
+      <!-- walkway -->
+      <polygon points="185,200 195,200 175,160 165,160" fill="rgba(180,160,120,0.3)"/>
     </svg>
   </div>
 
-  <div class="divider"></div>
+  <div class="ground"></div>
+  <div class="warm-overlay"></div>
 
-  <div class="text-area">
-    <div class="eyebrow">Mortgage Lead Generation</div>
-    <div class="title">The <span>Mortgage</span> Hub</div>
-    <div class="tagline">Find Your Best Rate Today</div>
-    <div class="cta">Get a Free Quote</div>
+  <div class="text-overlay">
+    <div class="headline">Your dream home is closer<br>than you think.</div>
+    <div class="sub">Compare mortgage rates from top lenders — for free.</div>
   </div>
-
-  <div class="domain">mortgageguidehub.com</div>
 </div>
 </body>
 </html>
